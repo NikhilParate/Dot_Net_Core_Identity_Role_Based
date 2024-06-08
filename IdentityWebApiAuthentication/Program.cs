@@ -1,4 +1,5 @@
 using IdentityWebApiAuthentication.Data;
+using IdentityWebApiAuthentication.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -11,7 +12,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<IdentityDbContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("identitycs")));
 
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().
+    AddRoles<IdentityRole>().
     AddEntityFrameworkStores<IdentityDbContext>();
+
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
